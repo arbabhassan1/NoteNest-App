@@ -25,4 +25,10 @@
   .btn-primary {
     @apply w-full text-sm bg-primary text-white p-2 rounded my-1 hover:bg-blue-600;
   }
+  .profile-img {
+    @apply w-[2rem] h-[2rem] object-cover rounded-full;
+  }
+  .profile-name {
+    @apply text-lg  shadow;
+  }
 }

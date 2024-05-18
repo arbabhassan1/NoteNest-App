@@ -5,19 +5,16 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/Signup";
 import Navbar from "./components/Navbar";
 const App = () => {
-  const routes = (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/Signup" element={<SignUp />} />
-        <Route path="/dashboard" element={<Home />} />
-      </Routes>
-    </Router>
-  );
   return (
     <>
-      <Navbar />
-      {routes}
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/Signup" element={<SignUp />} />
+          <Route path="/dashboard" element={<Home />} />
+        </Routes>
+      </Router>
     </>
   );
 };
