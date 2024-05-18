@@ -11,8 +11,16 @@ const SearchBar = ({ value, onChange, handelSearch, onClearSeacrh }) => {
         onChange={onChange}
         className="w-full text-xs  bg-transparent py-[11px] outline-none "
       />
-      <IoMdClose />
-      <FaMagnifyingGlass />
+      {value && (
+        <IoMdClose
+          onClick={onClearSeacrh}
+          className="text-xl  cursor-pointer text-slate-400 hover:text-black mr-3"
+        />
+      )}
+      <FaMagnifyingGlass
+        onClick={handelSearch}
+        className="text-xl  cursor-pointer text-slate-400 hover:text-black"
+      />
     </div>
   );
 };
