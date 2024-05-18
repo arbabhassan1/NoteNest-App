@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/Signup";
+import Navbar from "./components/Navbar";
 const App = () => {
   const routes = (
     <Router>
@@ -13,7 +14,12 @@ const App = () => {
       </Routes>
     </Router>
   );
-  return <>{routes}</>;
+  return (
+    <>
+      <Navbar />
+      {routes}
+    </>
+  );
 };
 
 export default App;
