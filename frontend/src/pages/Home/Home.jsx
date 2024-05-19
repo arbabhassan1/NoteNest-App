@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import NoteCard from "../../components/Cards/NoteCard";
-
+import { MdAdd } from "react-icons/md";
+import AddEditNote from "./AddEditNote";
+import Modal from "react-modal";
 const Home = () => {
+  const [openAddEditModal, setOpenAddEditModal] = useState({
+    isShown: false,
+    type: "add",
+    date: null,
+  });
   return (
     <>
       <div className="container mx-auto md:px-10 px-5   ">
@@ -17,6 +24,34 @@ const Home = () => {
           />
         </div>
       </div>
+      <button
+        onClick={() => {
+          setOpenAddEditModal({ isShown: true, type: "add", date: null });
+        }}
+        className="w-16 h-16 flex items-center justify-center  rounded-2xl bg-primary hover:bg-blue-600  absolute right-10 bottom-10"
+      >
+        <MdAdd className="text-[32px] text-white" />
+      </button>
+
+      <Modal
+        isOpen={openAddEditModal.isShown}
+        onRequestClose={() => {}}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0,0,0,0.2)",
+          },
+        }}
+        contentLabel=""
+        className=" w-[90%] md:w-[50%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
+      >
+        <AddEditNote
+          type={openAddEditModal.type}
+          noteData={openAddEditModal.date}
+          onClose={() => {
+            setOpenAddEditModal({ isShown: false, type: "add", date: null });
+          }}
+        />
+      </Modal>
     </>
   );
 };
