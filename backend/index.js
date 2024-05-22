@@ -33,12 +33,11 @@ async function main() {
 // Get User API
 
 app.get("/get-user", authenticationToken, async (req, res) => {
-  const { user } = req.body;
+  const { user } = req.user;
   const isUser = await User.findOne({ _id: user._id });
   if (!isUser) {
     return res.sendStatus(401);
   }
-
   return res.json({
     user: {
       fullName: isUser.fullName,

@@ -1,14 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NoteCard from "../../components/Cards/NoteCard";
 import { MdAdd } from "react-icons/md";
 import AddEditNote from "./AddEditNote";
 import Modal from "react-modal";
+import axiosInstance from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
     type: "add",
     date: null,
   });
+  const navigate = useNavigate();
+
+  const [userInfo, setUserInfo] = useState(null);
+
+  // Get User Info
+
+  const getUserInfo = async () => {
+    try {
+      const response = await axiosInstance.get("/get-user", {});
+      if (response.data && response.data.user) {
+        setUserInfo(response.data.user);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+    return () => {};
+  }, []);
+
   return (
     <>
       <div className="container mx-auto md:px-10 px-5   ">

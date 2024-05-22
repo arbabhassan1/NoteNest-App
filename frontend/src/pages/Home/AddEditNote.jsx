@@ -16,6 +16,10 @@ const AddEditNote = ({ noteData, type, onClose }) => {
 
   const editNote = async () => {};
 
+  //
+
+  // HAndle Add Note
+
   const handleAddNote = () => {
     if (!title) {
       setError("Please enter the title");
