@@ -5,7 +5,7 @@ import AddEditNote from "./AddEditNote";
 import Modal from "react-modal";
 import axiosInstance from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
-
+import Navbar from "../../components/Navbar";
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
@@ -39,6 +39,7 @@ const Home = () => {
 
   return (
     <>
+      <Navbar userInfo={userInfo} />
       <div className="container mx-auto md:px-10 px-5   ">
         <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
           <NoteCard
