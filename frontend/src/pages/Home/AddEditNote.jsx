@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TagInput from "../../components/Input/TagInput";
 import { MdClose } from "react-icons/md";
 import axiosInstance from "../../utils/axiosInstance";
 const AddEditNote = ({ getAllnotes, noteData, type, onClose }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [title, setTitle] = useState(noteData?.title || "");
+  const [content, setContent] = useState(noteData?.content || "");
+  const [tags, setTags] = useState(noteData?.tags || []);
 
   const [error, setError] = useState(null);
 
@@ -35,7 +35,28 @@ const AddEditNote = ({ getAllnotes, noteData, type, onClose }) => {
 
   // Edit Note
 
-  const editNote = async () => {};
+  const editNote = async () => {
+    const noteId = noteData._id;
+    try {
+      const response = await axiosInstance.put("/edit-note/" + noteId, {
+        title,
+        content,
+        tags,
+      });
+      if (response.data && response.data.note) {
+        getAllnotes();
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      }
+    }
+    onClose();
+  };
 
   //
 
@@ -70,6 +91,7 @@ const AddEditNote = ({ getAllnotes, noteData, type, onClose }) => {
         <label className="input-label">TITLE</label>
         <input
           type="text"
+          value={title}
           className=" text-2xl text-slate-950 outline-none "
           placeholder="Go To Gym At 5"
           onChange={(e) => {
@@ -81,6 +103,7 @@ const AddEditNote = ({ getAllnotes, noteData, type, onClose }) => {
         <label className="input-label">CONTENT</label>
         <textarea
           type="text"
+          value={content}
           className=" text-sm text-slate-950 outline-none  bg-slate-50 p-2 rounded"
           placeholder="Content"
           rows={10}
@@ -100,7 +123,7 @@ const AddEditNote = ({ getAllnotes, noteData, type, onClose }) => {
         className=" btn-primary font-medium p-3 mt-5"
         onClick={handleAddNote}
       >
-        ADD
+        {type === "edit" ? "UPDATE" : "ADD"}
       </button>
     </div>
   );

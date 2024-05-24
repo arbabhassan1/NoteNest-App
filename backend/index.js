@@ -8,7 +8,10 @@ const jwt = require("jsonwebtoken");
 const { authenticationToken } = require("./utilities");
 const User = require("./models/user.model");
 const Note = require("./models/note.model");
+var methodOverride = require("method-override");
+const bodyParser = require("body-parser");
 // App Use Json
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Cors Config
@@ -211,7 +214,7 @@ app.post("/add-note", authenticationToken, async (req, res) => {
 // });
 
 // Edit Note
-app.post("edit-note/:noteId", authenticationToken, async (req, res) => {
+app.put("edit-note/:noteId", authenticationToken, async (req, res) => {
   const noteId = req.params.noteId;
   const { title, content, tags, isPinned } = req.body;
   const { user } = req.user;
@@ -253,7 +256,8 @@ app.post("edit-note/:noteId", authenticationToken, async (req, res) => {
 
 app.delete("/delete-note/:noteId", authenticationToken, async (req, res) => {
   const noteId = req.params.noteId;
-  const { user } = req.body;
+  const { user } = req.user;
+
   try {
     const note = await Note.findOne({ _id: noteId, userId: user._id });
     if (!note) {

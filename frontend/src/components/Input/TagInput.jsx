@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 
 const TagInput = ({ tags, setTags }) => {
-  const [inputValue, setInputVAlue] = useState("");
+  const [inputValue, setInputVAlue] = useState(tags || "");
 
   const handleInputChange = (e) => {
     setInputVAlue(e.target.value);

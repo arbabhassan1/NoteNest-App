@@ -10,12 +10,38 @@ const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
     type: "add",
-    date: null,
+    data: null,
   });
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState(null);
   const [allNotes, setAllNotes] = useState([]);
+
+  //Delete Note
+
+  const deleteNote = async (data) => {
+    const noteId = data._id;
+    try {
+      const response = await axiosInstance.delete("/delete-note/" + noteId);
+      if (response.data && !response.data.error) {
+        console.log("okokok");
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        console.log("An unexpected error occured. Please try again");
+      }
+    }
+  };
+
+  // HAndel Edit
+
+  const handleEdit = (noteDetails) => {
+    setOpenAddEditModal({ isShown: true, data: noteDetails, type: "edit" });
+  };
 
   // Get User Info
 
@@ -65,8 +91,8 @@ const Home = () => {
               content={item.content}
               tags={item.tags}
               isPinned={item.isPinned}
-              onEdit={() => {}}
-              onDelete={() => {}}
+              onEdit={() => handleEdit(item)}
+              onDelete={() => deleteNote(item)}
               onPinNote={() => {}}
             />
           ))}
@@ -74,7 +100,7 @@ const Home = () => {
       </div>
       <button
         onClick={() => {
-          setOpenAddEditModal({ isShown: true, type: "add", date: null });
+          setOpenAddEditModal({ isShown: true, type: "add", data: null });
         }}
         className="w-16 h-16 flex items-center justify-center  rounded-2xl bg-primary hover:bg-blue-600  absolute right-10 bottom-10"
       >
@@ -96,9 +122,9 @@ const Home = () => {
         <AddEditNote
           getAllNotes={getAllNotes()}
           type={openAddEditModal.type}
-          noteData={openAddEditModal.date}
+          noteData={openAddEditModal.data}
           onClose={() => {
-            setOpenAddEditModal({ isShown: false, type: "add", date: null });
+            setOpenAddEditModal({ isShown: false, type: "add", data: null });
           }}
         />
       </Modal>
