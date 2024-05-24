@@ -150,7 +150,8 @@ app.get("/get-all-notes", authenticationToken, async (req, res) => {
 
 app.post("/add-note", authenticationToken, async (req, res) => {
   const { title, content, tags } = req.body;
-  const user = req.user;
+  const user = req.user.user;
+
   if (!title) {
     return res.status(400).json({ error: true, message: "Title is required" });
   }
@@ -176,6 +177,7 @@ app.post("/add-note", authenticationToken, async (req, res) => {
       message: "Note added Successfuly",
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       error: true,
       message: "Internal Server Error",

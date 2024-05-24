@@ -18,7 +18,7 @@ const TagInput = ({ tags, setTags }) => {
     }
   };
 
-  const handleKeyDown = () => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       addNewTag();
     }

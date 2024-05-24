@@ -6,7 +6,6 @@ import Modal from "react-modal";
 import axiosInstance from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import moment from "moment";
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
@@ -83,6 +82,7 @@ const Home = () => {
       </button>
 
       <Modal
+        appElement={document.getElementById("root")}
         isOpen={openAddEditModal.isShown}
         onRequestClose={() => {}}
         style={{
@@ -94,6 +94,7 @@ const Home = () => {
         className=" w-[90%] md:w-[50%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
       >
         <AddEditNote
+          getAllNotes={getAllNotes()}
           type={openAddEditModal.type}
           noteData={openAddEditModal.date}
           onClose={() => {
