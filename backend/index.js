@@ -183,6 +183,31 @@ app.post("/add-note", authenticationToken, async (req, res) => {
   }
 });
 
+// app.post("/insert", async (req, res) => {
+//   try {
+//     const note = new Note({
+//       title: "my 3rd  Note",
+//       content: "This is my content",
+//       tags: ["mytag1", "mytag2"],
+//       userId: "664f18669d0d860d741a8b2d",
+//       isPinned: true,
+//     });
+
+//     await note.save();
+
+//     return res.json({
+//       error: false,
+//       note,
+//       message: "Note added Successfuly",
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       error: true,
+//       message: "Internal Server Error",
+//     });
+//   }
+// });
+
 // Edit Note
 app.post("edit-note/:noteId", authenticationToken, async (req, res) => {
   const noteId = req.params.noteId;

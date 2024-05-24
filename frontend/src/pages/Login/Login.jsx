@@ -48,7 +48,7 @@ const Login = () => {
       }
     }
 
-    console.log(email, password);
+    // console.log(email, password);
   };
 
   return (
