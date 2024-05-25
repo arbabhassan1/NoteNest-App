@@ -52,6 +52,16 @@ app.get("/get-user", authenticationToken, async (req, res) => {
   });
 });
 
+// index Route
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    server: "Live",
+    developer: "Arbab Hassan",
+    message: "This is index route",
+  });
+});
+
 // Create Account
 
 app.post("/create-account", async (req, res) => {
