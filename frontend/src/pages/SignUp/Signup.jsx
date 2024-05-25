@@ -63,7 +63,10 @@ const Signup = () => {
     // console.log(email, password);
   };
   return (
-    <div className="flex items-center justify-center mt-28">
+    <div className="flex flex-col items-center justify-center h-screen gap-4">
+      <h1 className=" font-semibold text-4xl text-primary mt-5 mb-10">
+        NoteNest
+      </h1>
       <div className="w-96 border rounded bg-white px-7 py-10">
         <form action="" onSubmit={handelLogin}>
           <h4 className="text-2xl mb-7 ">SignUp</h4>

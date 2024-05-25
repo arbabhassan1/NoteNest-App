@@ -8,13 +8,18 @@
   box-sizing: border-box;
   padding: 0;
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   html {
     font-family: "Poppins", "Sans-serif";
   }
   body {
     background-color: #fdfeff;
-    overflow: hidden;
+    overflow: auto;
   }
 }
 
@@ -23,7 +28,7 @@
     @apply w-full text-sm bg-transparent border-[1.5px] px-5 py-3 rounded mb-4 outline-none;
   }
   .btn-primary {
-    @apply w-full text-sm bg-primary text-white p-2 rounded my-1 hover:bg-blue-600;
+    @apply w-full text-sm bg-primary text-white p-2 rounded my-1 hover:bg-primary_dark;
   }
   .profile-img {
     @apply w-[2rem] h-[2rem] object-cover rounded-full;

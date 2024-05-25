@@ -61,9 +61,9 @@ const TagInput = ({ tags, setTags }) => {
           onClick={() => {
             addNewTag();
           }}
-          className=" w-8 h-8 flex items-center justify-center rounded border hover:bg-blue-700 border-blue-700 "
+          className=" w-8 h-8 flex items-center justify-center rounded border hover:bg-primary border-primary "
         >
-          <MdAdd className="text-2xl text-blue-700 hover:text-white" />
+          <MdAdd className="text-2xl text-primary hover:text-white" />
         </button>
       </div>
     </div>
