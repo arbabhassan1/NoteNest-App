@@ -97,6 +97,26 @@ const Home = () => {
     }
   };
 
+  // Pin Note API HAndle
+
+  const onPinNote = async (note) => {
+    const noteId = note._id;
+    try {
+      const response = await axiosInstance.put(
+        "/update-note-pinned/" + noteId,
+        {
+          isPinned: !note.isPinned, // Toggle isPinned value
+        }
+      );
+      if (response.data && response.data.note) {
+        toast.success("Note update Successfuly");
+        getAllNotes();
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again");
+    }
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -120,7 +140,7 @@ const Home = () => {
                 isPinned={item.isPinned}
                 onEdit={() => handleEdit(item)}
                 onDelete={() => deleteNote(item)}
-                onPinNote={() => {}}
+                onPinNote={() => onPinNote(item)}
               />
             ))}
           </div>

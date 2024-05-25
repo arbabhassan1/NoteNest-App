@@ -263,36 +263,34 @@ app.put(
   authenticationToken,
   async (req, res) => {
     const noteId = req.params.noteId;
-    const { isPinned } = req.body;
     const { user } = req.user;
-
-    if (!isPinned) {
-      return res.status(400).json({
-        error: true,
-        message: "No Changes Provided",
-      });
-    }
 
     try {
       const note = await Note.findOne({ _id: noteId, userId: user._id });
 
       if (!note) {
-        res.status(404).json({
+        return res.status(404).json({
           error: true,
           message: "Note not found",
         });
       }
 
-      note.isPinned = isPinned || false;
+      // Toggle the isPinned status
+      note.isPinned = !note.isPinned;
 
       await note.save();
 
       return res.json({
         error: false,
-        message: "Note Pinned Successfuly",
+        message: `Note ${note.isPinned ? "Pinned" : "Unpinned"} Successfully`,
         note,
       });
-    } catch (error) {}
+    } catch (error) {
+      return res.status(500).json({
+        error: true,
+        message: "Internal Server Error",
+      });
+    }
   }
 );
 
