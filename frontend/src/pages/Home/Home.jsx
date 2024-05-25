@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import EmptyCard from "../../components/EmptyCard/EmptyCard";
 import EmptyNoteImg from "../../assets/notes.png";
+import { toast } from "react-toastify";
+
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
@@ -18,7 +20,7 @@ const Home = () => {
 
   const [userInfo, setUserInfo] = useState(null);
   const [allNotes, setAllNotes] = useState([]);
-
+  const [isSearch, setIsSearch] = useState(false);
   //Delete Note
 
   const deleteNote = async (data) => {
@@ -26,7 +28,7 @@ const Home = () => {
     try {
       const response = await axiosInstance.delete("/delete-note/" + noteId);
       if (response.data && !response.data.error) {
-        console.log("okokok");
+        toast.success("Successfuly Deleted Note");
       }
     } catch (error) {
       if (
@@ -34,7 +36,7 @@ const Home = () => {
         error.response.data &&
         error.response.data.message
       ) {
-        console.log("An unexpected error occured. Please try again");
+        toast.error("An unexpected error occured. Please try again");
       }
     }
   };
@@ -74,6 +76,24 @@ const Home = () => {
     }
   };
 
+  // sEARCH nOTE
+  const onSearchNote = async (query) => {
+    try {
+      const response = await axiosInstance.get("/search-note", {
+        params: {
+          query,
+        },
+      });
+
+      if (response.data && response.data.notes) {
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
+      }
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -82,7 +102,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar userInfo={userInfo} onSearchNote={onSearchNote} />
       <div className="container mx-auto md:px-10 px-5   ">
         {allNotes.length > 0 ? (
           <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">

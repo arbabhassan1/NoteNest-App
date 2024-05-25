@@ -4,13 +4,19 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar/SearchBar";
 import { toast } from "react-toastify";
 
-const Navbar = ({ userInfo }) => {
+const Navbar = ({ userInfo, onSearchNote }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    console.log("op");
+    if (searchQuery) {
+      onSearchNote(searchQuery);
+    }
+  };
   const clearSearch = () => {
     setSearchQuery("");
   };
+
   const onLogout = () => {
     localStorage.clear();
     toast.success("Successfuly LogOut!");
