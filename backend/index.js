@@ -180,7 +180,6 @@ app.post("/add-note", authenticationToken, async (req, res) => {
       message: "Note added Successfuly",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       error: true,
       message: "Internal Server Error",
@@ -301,7 +300,6 @@ app.get("/search-note", authenticationToken, async (req, res) => {
     const regex = new RegExp(query, "i");
     const searchedNotes = await Note.find({ title: { $regex: regex } });
     if (searchedNotes.length > 0) {
-      console.log("Notes found:", searchedNotes);
       return res.json({
         error: false,
         notes: searchedNotes,
