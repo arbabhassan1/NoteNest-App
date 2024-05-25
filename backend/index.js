@@ -322,10 +322,6 @@ app.get("/search-note", authenticationToken, async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.json({ data: "Hello" });
-});
-
 app.listen(8000, () => {
-  console.log("Applicatyion is live on portNO 8000");
+  console.log("Application is Live");
 });

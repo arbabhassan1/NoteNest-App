@@ -14,6 +14,7 @@ const SearchBar = ({
       className={`w-80   items-center px-4 bg-slate-100 rounded-md ${display}`}
     >
       <input
+        title="Search Note"
         type="text"
         placeholder="Search Notes"
         value={value}
@@ -27,6 +28,7 @@ const SearchBar = ({
         />
       )}
       <FaMagnifyingGlass
+        title="Search"
         onClick={handleSearch}
         className="text-xl cursor-pointer text-slate-400 hover:text-black"
       />

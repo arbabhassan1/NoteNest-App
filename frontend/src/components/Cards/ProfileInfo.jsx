@@ -4,9 +4,8 @@ import userImg from "../../assets/user.png";
 const ProfileInfo = ({ userInfo, onLogout }) => {
   return (
     <Menu isLazy>
-      <MenuButton>
+      <MenuButton title="User">
         <div className="flex justify-center items-center gap-3">
-          {" "}
           {userInfo?.fullName}
           {userInfo?.fullName && (
             <img src={userImg} alt="" className="profile-img" />

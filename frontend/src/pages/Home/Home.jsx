@@ -154,10 +154,11 @@ const Home = () => {
         )}
       </div>
       <button
+        title="Add Note"
         onClick={() => {
           setOpenAddEditModal({ isShown: true, type: "add", data: null });
         }}
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-primary_dark fixed right-10 bottom-10"
+        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-primary_dark fixed right-10 bottom-12"
       >
         <MdAdd className="text-[32px] text-white" />
       </button>
