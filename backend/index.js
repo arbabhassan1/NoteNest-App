@@ -188,33 +188,8 @@ app.post("/add-note", authenticationToken, async (req, res) => {
   }
 });
 
-// app.post("/insert", async (req, res) => {
-//   try {
-//     const note = new Note({
-//       title: "my 3rd  Note",
-//       content: "This is my content",
-//       tags: ["mytag1", "mytag2"],
-//       userId: "664f18669d0d860d741a8b2d",
-//       isPinned: true,
-//     });
-
-//     await note.save();
-
-//     return res.json({
-//       error: false,
-//       note,
-//       message: "Note added Successfuly",
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       error: true,
-//       message: "Internal Server Error",
-//     });
-//   }
-// });
-
 // Edit Note
-app.put("edit-note/:noteId", authenticationToken, async (req, res) => {
+app.put("/edit-note/:noteId", authenticationToken, async (req, res) => {
   const noteId = req.params.noteId;
   const { title, content, tags, isPinned } = req.body;
   const { user } = req.user;
@@ -320,6 +295,34 @@ app.put(
     } catch (error) {}
   }
 );
+
+app.get("/search-note", authenticationToken, async (req, res) => {
+  const { query } = req.query;
+  const user = req.user;
+  try {
+    const regex = new RegExp(query, "i");
+    const searchedNotes = await Note.find({ title: { $regex: regex } });
+    if (searchedNotes.length > 0) {
+      console.log("Notes found:", searchedNotes);
+      return res.json({
+        error: false,
+        notes: searchedNotes,
+        message: "Notes Found",
+      });
+    } else {
+      return res.json({
+        error: false,
+        notes: [],
+        message: "No notes found with the given query",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error",
+    });
+  }
+});
 
 app.get("/", (req, res) => {
   res.json({ data: "Hello" });

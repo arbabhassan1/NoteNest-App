@@ -21,14 +21,16 @@ const Home = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [allNotes, setAllNotes] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
-  //Delete Note
+  const [searchResults, setSearchResults] = useState([]);
 
+  // Delete Note
   const deleteNote = async (data) => {
     const noteId = data._id;
     try {
       const response = await axiosInstance.delete("/delete-note/" + noteId);
       if (response.data && !response.data.error) {
-        toast.success("Successfuly Deleted Note");
+        toast.success("Successfully Deleted Note");
+        getAllNotes(); // Refresh the notes after deletion
       }
     } catch (error) {
       if (
@@ -36,19 +38,17 @@ const Home = () => {
         error.response.data &&
         error.response.data.message
       ) {
-        toast.error("An unexpected error occured. Please try again");
+        toast.error("An unexpected error occurred. Please try again");
       }
     }
   };
 
-  // HAndel Edit
-
+  // Handle Edit
   const handleEdit = (noteDetails) => {
     setOpenAddEditModal({ isShown: true, data: noteDetails, type: "edit" });
   };
 
   // Get User Info
-
   const getUserInfo = async () => {
     try {
       const response = await axiosInstance.get("/get-user", {});
@@ -63,8 +63,7 @@ const Home = () => {
     }
   };
 
-  // GET ALL NOTES
-
+  // Get All Notes
   const getAllNotes = async () => {
     try {
       const response = await axiosInstance.get("/get-all-notes");
@@ -72,41 +71,46 @@ const Home = () => {
         setAllNotes(response.data.notes);
       }
     } catch (error) {
-      console.log("An unexpected error occured. Please try again");
+      console.log("An unexpected error occurred. Please try again");
     }
   };
 
-  // sEARCH nOTE
+  // Search Note
   const onSearchNote = async (query) => {
-    try {
-      const response = await axiosInstance.get("/search-note", {
-        params: {
-          query,
-        },
-      });
+    if (!query) {
+      setIsSearch(false);
+      setSearchResults([]);
+      getAllNotes(); // Reset to all notes if query is empty
+      return;
+    }
 
+    try {
+      const response = await axiosInstance.get(
+        `/search-note?query=${encodeURIComponent(query)}`
+      );
       if (response.data && response.data.notes) {
         setIsSearch(true);
-        setAllNotes(response.data.notes);
+        setSearchResults(response.data.notes);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error("An unexpected error occurred. Please try again");
     }
   };
 
   useEffect(() => {
     getAllNotes();
     getUserInfo();
-    return () => {};
   }, []);
+
+  const notesToDisplay = isSearch ? searchResults : allNotes;
 
   return (
     <>
       <Navbar userInfo={userInfo} onSearchNote={onSearchNote} />
-      <div className="container mx-auto md:px-10 px-5   ">
-        {allNotes.length > 0 ? (
-          <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-            {allNotes.map((item, index) => (
+      <div className="container mx-auto md:px-10 px-5">
+        {notesToDisplay.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+            {notesToDisplay.map((item) => (
               <NoteCard
                 key={item._id}
                 title={item.title}
@@ -124,7 +128,7 @@ const Home = () => {
           <EmptyCard
             imgSrc={EmptyNoteImg}
             message={
-              "Start creating your first note! Click the 'Add' button to join down your thoughts,ideas, and reminders. Let's get Started!"
+              "Start creating your first note! Click the 'Add' button to join down your thoughts, ideas, and reminders. Let's get Started!"
             }
           />
         )}
@@ -133,7 +137,7 @@ const Home = () => {
         onClick={() => {
           setOpenAddEditModal({ isShown: true, type: "add", data: null });
         }}
-        className="w-16 h-16 flex items-center justify-center  rounded-2xl bg-primary hover:bg-blue-600  absolute right-10 bottom-10"
+        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-blue-600 absolute right-10 bottom-10"
       >
         <MdAdd className="text-[32px] text-white" />
       </button>
@@ -148,10 +152,10 @@ const Home = () => {
           },
         }}
         contentLabel=""
-        className=" w-[90%] md:w-[50%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
+        className="w-[90%] md:w-[50%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
       >
         <AddEditNote
-          getAllNotes={getAllNotes()}
+          getAllNotes={getAllNotes}
           type={openAddEditModal.type}
           noteData={openAddEditModal.data}
           onClose={() => {
