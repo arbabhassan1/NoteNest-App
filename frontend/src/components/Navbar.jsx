@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ProfileInfo from "./Cards/ProfileInfo";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar/SearchBar";
+import { toast } from "react-toastify";
+
 const Navbar = ({ userInfo }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ const Navbar = ({ userInfo }) => {
   };
   const onLogout = () => {
     localStorage.clear();
+    toast.success("Successfuly LogOut!");
     navigate("/login");
   };
   return (

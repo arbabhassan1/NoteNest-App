@@ -8,7 +8,9 @@ const ProfileInfo = ({ userInfo, onLogout }) => {
         <div className="flex justify-center items-center gap-3">
           {" "}
           {userInfo?.fullName}
-          <img src={userImg} alt="" className="profile-img" />
+          {userInfo?.fullName && (
+            <img src={userImg} alt="" className="profile-img" />
+          )}
         </div>
       </MenuButton>
       <MenuList width={140} padding={10} rounded={5} bg={"white"}>

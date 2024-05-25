@@ -4,6 +4,7 @@ import PasswordInput from "../../components/Input/PasswordInput";
 import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Signup = () => {
 
       if (response.data && response.data.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
+        toast.success("Successfuly Account Created");
         navigate("/dashboard");
       }
     } catch (error) {
@@ -91,7 +93,7 @@ const Signup = () => {
           />
           {error && <p className="text-sm text-red-600 py-1">{error}</p>}
           <button type="submit " className="btn-primary">
-            Login
+            SignUp
           </button>
 
           <p className="text-sm text-center mt-4">

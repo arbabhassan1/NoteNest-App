@@ -5,7 +5,7 @@ import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-
+import { toast } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -34,6 +34,7 @@ const Login = () => {
 
       if (response.data && response.data.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
+        toast.success("Successfuly Login");
         navigate("/dashboard");
       }
     } catch (error) {

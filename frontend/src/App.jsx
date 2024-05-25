@@ -3,6 +3,8 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/Signup";
 import Navbar from "./components/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   return (
     <>
@@ -14,6 +16,7 @@ const App = () => {
           <Route path="/dashboard" element={<Home />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </>
   );
 };
